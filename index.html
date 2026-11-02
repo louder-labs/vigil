@@ -87,6 +87,9 @@ textarea{min-height:130px;resize:vertical}
 .lines{display:grid;gap:8px;margin:12px 0}
 .line{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .line b{display:block;font-size:17px;color:var(--accent);user-select:all}
+.line a{color:inherit}
+.line .acts{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.line .acts a{display:inline-block;min-height:32px;line-height:32px;font-weight:700;color:var(--accent)}
 .vigil{position:fixed;inset:0;z-index:35;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 28px)}
 .vcard{pointer-events:auto;width:min(560px,100%);text-align:center;background:linear-gradient(180deg,rgba(10,14,40,.2),rgba(10,14,40,.85) 30%);border-radius:22px;padding:26px 22px 20px}
 .place{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:800}
@@ -196,9 +199,10 @@ textarea{min-height:130px;resize:vertical}
       <h3>You matter. Please reach out now.</h3>
       <p class="lede">Your prayer will not be posted publicly. Someone can talk with you right now, any hour.</p>
       <div class="lines">
-        <div class="line">United States: call or text <b>988</b></div>
-        <div class="line">Anywhere in the world: find a free, confidential line at <b>findahelpline.com</b></div>
+        <div class="line">United States: call or text <b><a href="tel:988">988</a></b><span class="acts"><a href="tel:988">Call 988</a> · <a href="sms:988">Text 988</a></span></div>
+        <div class="line">Anywhere in the world: find a free, confidential line at <b><a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a></b></div>
         <div class="line">In immediate danger: call your local emergency number.</div>
+        <div class="line">For ongoing support, when you're ready: <b><a href="https://onebeacon.app" target="_blank" rel="noopener">onebeacon.app</a></b><span class="acts">OneBeacon is a free, anonymous recovery community built on the 12 steps. It is not a crisis line.</span></div>
       </div>
       <p style="color:var(--muted);font-size:14px">We're keeping watch with you. You are not alone.</p>
       <div class="foot"><span></span><button class="btn ghost" data-close>Close</button></div>
