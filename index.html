@@ -101,9 +101,15 @@ textarea{min-height:130px;resize:vertical}
 .board td.big{font-family:var(--display);font-size:26px;font-weight:600;color:var(--flame-hot);line-height:1}
 .board .note{font-size:12px;color:var(--faint);margin:10px 0 0}
 .hdr-r{display:flex;gap:8px;align-items:center}
-.getbtn{display:flex;align-items:center;gap:7px;background:rgba(255,180,90,.12);border:1px solid rgba(255,200,130,.4);color:var(--flame-hot);font:700 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px)}
+.getbtn{display:flex;align-items:center;gap:7px;white-space:nowrap;background:rgba(255,180,90,.12);border:1px solid rgba(255,200,130,.4);color:var(--flame-hot);font:700 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px)}
 .getbtn svg{width:16px;height:16px}
+
 @media (max-width:520px){.getbtn .gl{display:none}.getbtn{padding:8px 10px}.boardbtn{padding:8px 12px}}
+.nudge{position:fixed;z-index:40;left:50%;top:calc(env(safe-area-inset-top,0px) + 64px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;width:max-content;max-width:calc(100vw - 32px);background:var(--glass-2);backdrop-filter:blur(16px);border:1px solid rgba(255,200,130,.4);border-radius:999px;padding:6px 6px 6px 16px;font-size:14px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.nudge b{color:var(--ink)}
+.nudge .btn{padding:8px 14px;font-size:14px}
+.nudge .x{background:none;border:0;color:var(--faint);font:700 18px var(--body);line-height:1;padding:6px 8px;cursor:pointer}
+.stores{font-size:13px;color:var(--faint);margin:0 0 14px}
 .dev{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;padding-bottom:2px}
 .dev button{flex:0 0 auto;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);font:700 13px var(--body);border-radius:999px;padding:8px 13px;cursor:pointer}
 .dev button[aria-selected="true"]{background:rgba(255,180,90,.16);border-color:rgba(255,200,130,.55);color:var(--flame-hot)}
@@ -124,7 +130,7 @@ textarea{min-height:130px;resize:vertical}
 <canvas id="globe" aria-label="A turning globe. Each warm light is a prayer from that place."></canvas>
 <header>
   <div class="brand"><img src="https://static.wixstatic.com/media/2d1aef_866ce4d0e61346489c55bf3ac7ff64d6~mv2.jpg/v1/fill/w_72,h_72,q_90/vigil.jpg" alt=""><b>VIGIL</b></div>
-  <div class="hdr-r"><button class="getbtn" id="getBtn" aria-label="Get the Vigil app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg><span class="gl">Get the app</span></button>
+  <div class="hdr-r"><button class="getbtn" id="getBtn" aria-label="Download the Vigil app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg><span class="gl">Download the app</span></button>
   <button class="boardbtn" id="boardBtn" aria-expanded="false" aria-controls="board"><span class="dot"></span><span><b id="todayN">0</b> <span id="todayL">prayers</span> today</span><span aria-hidden="true">▾</span></button></div>
 </header>
 <section class="hero" id="hero">
@@ -137,7 +143,8 @@ textarea{min-height:130px;resize:vertical}
   <p class="sub">Tap a prayer to find it on the globe. Newest first.</p>
   <div class="list" id="list"><div class="empty">Gathering the lights…</div></div>
 </aside>
-<div class="foot-links"><button id="aboutBtn">About, privacy and safety</button> · <button id="getLink">Get the app</button></div>
+<div class="foot-links"><button id="aboutBtn">About, privacy and safety</button> · <button id="getLink">Download the app</button></div>
+<div class="nudge" id="nudge" hidden role="region" aria-label="Get the Vigil app"><span><b>Vigil is an app.</b> Free, no account.</span><button class="btn" id="nudgeGet" type="button">Download</button><button class="x" id="nudgeX" type="button" aria-label="Not now">×</button></div>
 
 <div class="scrim" id="compose" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="cTitle">
@@ -196,11 +203,12 @@ textarea{min-height:130px;resize:vertical}
 </div>
 <div class="scrim" id="install" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="iTitle">
-    <h3 id="iTitle">Keep Vigil on your device</h3>
-    <p class="lede">Free, no app store, no account. It opens full screen like any app.</p>
+    <h3 id="iTitle">Download the Vigil app</h3>
+    <p class="lede">Free, no account. Takes under a minute. Vigil opens full screen from your home screen, dock or taskbar, like any app.</p>
     <button class="btn" id="iNative" hidden style="width:100%;margin-bottom:14px">Install Vigil now</button>
     <div class="dev" role="tablist" aria-label="Your device" id="iTabs"></div>
     <div id="iBody"></div>
+    <p class="stores">App Store and Google Play versions are on the way.</p>
     <div class="sharebox"><span id="iUrl"></span><button class="btn ghost" id="iShare" type="button">Share Vigil</button></div>
     <div class="foot"><span></span><button class="btn ghost" data-close>Done</button></div>
   </div>
@@ -372,7 +380,11 @@ if(standalone){$('#getBtn').hidden=true;$('#getLink').hidden=true}
 $('#getBtn').addEventListener('click',openInstall);$('#getLink').addEventListener('click',openInstall);$('#aboutGet').addEventListener('click',openInstall);
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!$('#install').hidden)renderInstall()});
 $('#iNative').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const r=await deferredPrompt.userChoice.catch(()=>null);deferredPrompt=null;renderInstall();if(r&&r.outcome==='accepted'){closeModals();toast('Vigil is on your device. Welcome.')}});
-addEventListener('appinstalled',()=>{$('#getBtn').hidden=true});
+addEventListener('appinstalled',()=>{$('#getBtn').hidden=true;$('#nudge').hidden=true;store.set('nudged',1)});
+/* one gentle nudge per device, phones and tablets only, never over an open dialog */
+function hideNudge(){$('#nudge').hidden=true;store.set('nudged',1)}
+$('#nudgeGet').addEventListener('click',()=>{hideNudge();openInstall()});$('#nudgeX').addEventListener('click',hideNudge);
+if(!standalone&&!store.get('nudged',0)&&(navigator.maxTouchPoints>0||matchMedia('(pointer:coarse)').matches))setTimeout(()=>{const busy=[...document.querySelectorAll('.scrim')].some(s=>!s.hidden)||!$('#vigil').hidden;if(!busy&&!store.get('nudged',0))$('#nudge').hidden=false},8000);
 $('#iShare').addEventListener('click',async()=>{const data={title:'Vigil',text:'Pray with us and the world. Free forever.',url:siteUrl()};
   if(navigator.share){try{await navigator.share(data)}catch(e){}return}
   try{await navigator.clipboard.writeText(siteUrl());toast('Link copied. Share it with someone who needs a prayer.')}catch(e){toast(siteUrl())}});
