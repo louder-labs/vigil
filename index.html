@@ -24,22 +24,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;700;800&display=swap">
 <style>
-:root{color-scheme:dark;--space:#03040e;--space-2:#0b1033;--ink:#eef1ff;--muted:#a6aed0;--faint:#6a7299;--line:rgba(160,175,255,.16);--glass:rgba(10,14,40,.72);--glass-2:rgba(18,24,64,.86);--flame:#ffb54f;--flame-hot:#ffe7b0;--ember:#ff7a2a;
+:root{color-scheme:dark;--space:#03040e;--space-2:#0b1033;--ink:#eef1ff;--muted:#a6aed0;--faint:#6a7299;--line:rgba(160,175,255,.16);--glass:rgba(10,14,40,.72);--glass-2:rgba(18,24,64,.86);--flame:#ffb54f;--flame-hot:#ffe7b0;--ember:#ff7a2a;--accent:var(--flame-hot);--nebula-op:1;
 --display:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
 *{box-sizing:border-box}[hidden]{display:none!important}
 html,body{height:100%;margin:0}
 body{background:radial-gradient(120% 90% at 50% 40%,var(--space-2),var(--space) 70%);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;overflow:hidden;padding-top:env(safe-area-inset-top)}
-.nebula{position:fixed;inset:0;pointer-events:none;background:radial-gradient(40% 35% at 12% 18%,rgba(90,42,158,.38),transparent 70%),radial-gradient(40% 35% at 90% 26%,rgba(15,107,138,.32),transparent 70%)}
+.nebula{position:fixed;inset:0;pointer-events:none;opacity:var(--nebula-op);background:radial-gradient(40% 35% at 12% 18%,rgba(90,42,158,.38),transparent 70%),radial-gradient(40% 35% at 90% 26%,rgba(15,107,138,.32),transparent 70%)}
 canvas#globe{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
 header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(16px,env(safe-area-inset-right)) 14px max(16px,env(safe-area-inset-left))}
 .brand{display:flex;align-items:center;gap:10px}
 .brand img{width:36px;height:36px;border-radius:9px;box-shadow:0 0 24px rgba(255,170,80,.35)}
 .brand b{font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:.32em;padding-left:.32em}
 .stats{display:flex;gap:14px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex-wrap:wrap;justify-content:flex-end}
-.stats b{color:var(--flame-hot);font-weight:800}
+.stats b{color:var(--accent);font-weight:800}
 .hero{position:fixed;z-index:10;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);text-align:center;pointer-events:none;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
 .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(26px,4.6vw,46px);line-height:1.08;margin:0;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.6)}
-.hero h1 em{color:var(--flame-hot);font-style:italic}
+.hero h1 em{color:var(--accent);font-style:italic}
 .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;pointer-events:auto}
 .btn{font:800 15px var(--body);border:0;border-radius:999px;padding:13px 22px;cursor:pointer;color:#1b0e00;background:linear-gradient(180deg,var(--flame-hot),var(--flame) 55%,var(--ember));box-shadow:0 0 0 1px rgba(255,220,160,.4),0 8px 30px rgba(255,140,50,.35)}
 .btn.ghost{background:rgba(255,255,255,.06);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);backdrop-filter:blur(8px)}
@@ -54,7 +54,7 @@ aside .sub{color:var(--muted);font-size:13px;margin:0;padding:0 18px 10px}
 .prayer p{margin:0 0 8px;font-size:14.5px}
 .meta{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
 .meta .who{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.count{color:var(--flame-hot);white-space:nowrap}
+.count{color:var(--accent);white-space:nowrap}
 .tag{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin-left:6px}
 .empty{color:var(--muted);text-align:center;padding:30px 16px;font-size:14px}
 .sheet-toggle{display:none}
@@ -81,10 +81,10 @@ textarea{min-height:130px;resize:vertical}
 .notice{border-radius:12px;padding:12px 14px;font-size:14px;background:rgba(255,120,120,.1);border:1px solid rgba(255,138,138,.35);color:#ffd2d2}
 .lines{display:grid;gap:8px;margin:12px 0}
 .line{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.line b{display:block;font-size:17px;color:var(--flame-hot);user-select:all}
+.line b{display:block;font-size:17px;color:var(--accent);user-select:all}
 .vigil{position:fixed;inset:0;z-index:35;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 28px)}
 .vcard{pointer-events:auto;width:min(560px,100%);text-align:center;background:linear-gradient(180deg,rgba(10,14,40,.2),rgba(10,14,40,.85) 30%);border-radius:22px;padding:26px 22px 20px}
-.place{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--flame-hot);font-weight:800}
+.place{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:800}
 .vcard blockquote{font-family:var(--display);font-size:clamp(22px,3.4vw,30px);line-height:1.25;margin:10px 0 16px;text-wrap:balance}
 .bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .vclose{position:fixed;z-index:36;top:calc(env(safe-area-inset-top,0px) + 14px);right:16px;pointer-events:auto}
@@ -92,9 +92,19 @@ textarea{min-height:130px;resize:vertical}
 .foot-links{position:fixed;z-index:20;left:max(16px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom,0px) + 10px);font-size:12px;color:var(--faint)}
 .foot-links button{background:none;border:0;color:var(--faint);font:inherit;cursor:pointer;padding:0;text-decoration:underline}
 @media (max-width:860px){.foot-links{display:none}}
+.sheet-links{display:none;font-size:13px;color:var(--faint);padding:0 18px 10px}
+.sheet-links button{background:none;border:0;color:var(--muted);font:inherit;cursor:pointer;padding:6px 0;min-height:44px;text-decoration:underline}
+@media (max-width:860px){aside.open .sheet-links{display:block}}
+.sky-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.sky-grid button{display:grid;grid-template-rows:52px auto;min-height:44px;padding:0;overflow:hidden;background:rgba(127,127,127,.08);border:1px solid var(--line);border-radius:14px;color:var(--ink);font:700 13px var(--body);cursor:pointer;text-align:center}
+.sky-grid .sw{background:linear-gradient(180deg,var(--sb),var(--sa))}
+.sky-grid .nm{padding:8px 4px}
+.sky-grid button[aria-pressed="true"]{border-color:var(--flame);box-shadow:0 0 0 2px var(--flame)}
+.sky-custom{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.sky-custom input{width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer}
 .about p{color:var(--muted)}
 .boardbtn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--ink);font:600 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px);font-variant-numeric:tabular-nums}
-.boardbtn b{color:var(--flame-hot);font-weight:800}
+.boardbtn b{color:var(--accent);font-weight:800}
 .boardbtn .dot{width:7px;height:7px;border-radius:50%;background:var(--flame);box-shadow:0 0 10px var(--flame)}
 .board{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 64px);right:max(16px,env(safe-area-inset-right));width:min(360px,calc(100vw - 32px));background:var(--glass-2);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .board h3{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 2px}
@@ -104,10 +114,10 @@ textarea{min-height:130px;resize:vertical}
 .board th:first-child{text-align:left}
 .board td{padding:10px 0;border-top:1px solid var(--line);text-align:right;font-size:15px}
 .board td:first-child{text-align:left;color:var(--muted);font-weight:600}
-.board td.big{font-family:var(--display);font-size:26px;font-weight:600;color:var(--flame-hot);line-height:1}
+.board td.big{font-family:var(--display);font-size:26px;font-weight:600;color:var(--accent);line-height:1}
 .board .note{font-size:12px;color:var(--faint);margin:10px 0 0}
 .hdr-r{display:flex;gap:8px;align-items:center}
-.getbtn{display:flex;align-items:center;gap:7px;white-space:nowrap;background:rgba(255,180,90,.12);border:1px solid rgba(255,200,130,.4);color:var(--flame-hot);font:700 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px)}
+.getbtn{display:flex;align-items:center;gap:7px;white-space:nowrap;background:rgba(255,180,90,.12);border:1px solid rgba(255,200,130,.4);color:var(--accent);font:700 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px)}
 .getbtn svg{width:16px;height:16px}
 
 @media (max-width:520px){.getbtn .gl{display:none}.getbtn{padding:8px 10px}.boardbtn{padding:8px 12px}}
@@ -118,7 +128,7 @@ textarea{min-height:130px;resize:vertical}
 .stores{font-size:13px;color:var(--faint);margin:0 0 14px}
 .dev{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;padding-bottom:2px}
 .dev button{flex:0 0 auto;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);font:700 13px var(--body);border-radius:999px;padding:8px 13px;cursor:pointer}
-.dev button[aria-selected="true"]{background:rgba(255,180,90,.16);border-color:rgba(255,200,130,.55);color:var(--flame-hot)}
+.dev button[aria-selected="true"]{background:rgba(255,180,90,.16);border-color:rgba(255,200,130,.55);color:var(--accent)}
 .steps{display:grid;gap:10px;margin:0 0 14px;padding:0;list-style:none;counter-reset:s}
 .steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:12px}
 .steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,var(--flame-hot),var(--flame));color:#1b0e00;font-weight:800;font-size:14px}
@@ -154,9 +164,10 @@ textarea{min-height:130px;resize:vertical}
   <button class="sheet-toggle" id="sheetBtn" aria-expanded="false"><h2>Prayers in the sky</h2><span aria-hidden="true">▲</span></button>
   <h2 class="desk-title">Prayers in the sky</h2>
   <p class="sub">Tap a prayer to find it on the globe. Newest first.</p>
+  <div class="sheet-links"><button type="button" data-open="#about">About, privacy and safety</button> · <button type="button" data-open="#sky">Your sky</button> · <button type="button" data-open="#install">Download the app</button></div>
   <div class="list" id="list"><div class="empty">Gathering the lights…</div></div>
 </aside>
-<div class="foot-links"><button id="aboutBtn">About, privacy and safety</button> · <button id="getLink">Download the app</button></div>
+<div class="foot-links"><button id="aboutBtn">About, privacy and safety</button> · <button type="button" data-open="#sky">Your sky</button> · <button id="getLink">Download the app</button></div>
 <div class="nudge" id="nudge" hidden role="region" aria-label="Get the Vigil app"><span><b>Vigil is an app.</b> Free, no account.</span><button class="btn" id="nudgeGet" type="button">Download</button><button class="x" id="nudgeX" type="button" aria-label="Not now">×</button></div>
 
 <div class="scrim" id="compose" hidden>
@@ -196,7 +207,7 @@ textarea{min-height:130px;resize:vertical}
     <p>Vigil lets anyone who believes in God or a higher power light a prayer and see the world keeping watch together. It is free and always will be.</p>
     <p><b style="color:var(--ink)">Kindness check.</b> Every prayer is checked before it appears on the globe. Prayers with hate, cursing, threats, ads, links or personal details are not posted.</p>
     <p><b style="color:var(--ink)">Privacy.</b> We store your prayer, the first name you choose (if any), and the city you pick. We never store your exact location or your IP address. We count visits with Plausible, which uses no cookies and collects no personal data.</p>
-    <p><b style="color:var(--ink)">Get the app.</b> Vigil installs from this link on any phone, tablet or computer. No app store, no account, no cost. <button class="linkbtn" id="aboutGet" style="padding:0;color:var(--flame-hot)">Show me how</button></p>
+    <p><b style="color:var(--ink)">Get the app.</b> Vigil installs from this link on any phone, tablet or computer. No app store, no account, no cost. <button class="linkbtn" id="aboutGet" style="padding:0;color:var(--accent)">Show me how</button></p>
     <p><b style="color:var(--ink)">If you're struggling.</b> In the United States call or text 988. Anywhere in the world: findahelpline.com.</p>
     <div class="foot"><span></span><button class="btn ghost" data-close>Close</button></div>
   </div>
@@ -213,6 +224,15 @@ textarea{min-height:130px;resize:vertical}
   <p class="lede">How many prayers the world has lit, and how often someone kept vigil.</p>
   <table><thead><tr><th>When</th><th>Prayers lit</th><th>Vigils kept</th></tr></thead><tbody id="boardBody"></tbody></table>
   <p class="note" id="boardNote">Counted in your local time.</p>
+</div>
+<div class="scrim" id="sky" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="sTitle">
+    <h3 id="sTitle">Your sky</h3>
+    <p class="lede">Change the sky behind the globe. The flame and every prayer light stay the same for everyone.</p>
+    <div class="sky-grid" id="skyGrid" role="group" aria-label="Sky colors"></div>
+    <label class="sky-custom"><input type="color" id="skyCustom" value="#151b4d"><span>Or choose your own color. We'll keep the words easy to read.</span></label>
+    <div class="foot"><span></span><button class="btn ghost" data-close>Done</button></div>
+  </div>
 </div>
 <div class="scrim" id="install" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="iTitle">
@@ -283,12 +303,13 @@ addEventListener('resize',layout);layout();if(document.fonts&&document.fonts.rea
 function subsolar(){const n=new Date();const day=(n-Date.UTC(n.getUTCFullYear(),0,0))/864e5;return[180-(n.getUTCHours()+n.getUTCMinutes()/60)*15,-23.44*Math.cos(2*Math.PI/365*(day+10))]}
 function visible(lon,lat){return d3.geoDistance([lon,lat],[-rot[0],-rot[1]])<Math.PI/2-0.02}
 function glowDot(x,y,r,a){const g=ctx.createRadialGradient(x,y,0,x,y,r*4);g.addColorStop(0,`rgba(255,240,205,${a})`);g.addColorStop(.25,`rgba(255,184,90,${a*.8})`);g.addColorStop(1,'rgba(255,120,40,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*4,0,7);ctx.fill()}
+let ocean=['#12205a','#050a26']; /* tinted by Your sky; flame, arcs and lights never change */
 function draw(t){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
   if(target){rot[0]+=(target[0]-rot[0])*.06;rot[1]+=(target[1]-rot[1])*.06;if(Math.abs(target[0]-rot[0])<.05&&Math.abs(target[1]-rot[1])<.05)target=null}
   else if(!dragging&&!reduced&&performance.now()-lastInteract>4000)rot[0]+=.035;
   proj.rotate(rot);const[cx,cy]=center;
   let g=ctx.createRadialGradient(cx,cy,R*.92,cx,cy,R*1.25);g.addColorStop(0,'rgba(76,195,255,.45)');g.addColorStop(.35,'rgba(60,140,255,.14)');g.addColorStop(1,'rgba(40,80,200,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R*1.25,0,7);ctx.fill();
-  g=ctx.createRadialGradient(cx-R*.3,cy-R*.35,R*.1,cx,cy,R);g.addColorStop(0,'#12205a');g.addColorStop(1,'#050a26');ctx.fillStyle=g;ctx.beginPath();path({type:'Sphere'});ctx.fill();
+  g=ctx.createRadialGradient(cx-R*.3,cy-R*.35,R*.1,cx,cy,R);g.addColorStop(0,ocean[0]);g.addColorStop(1,ocean[1]);ctx.fillStyle=g;ctx.beginPath();path({type:'Sphere'});ctx.fill();
   ctx.strokeStyle='rgba(120,150,255,.07)';ctx.lineWidth=.7;ctx.beginPath();path(graticule);ctx.stroke();
   if(land){ctx.fillStyle='#1d2c74';ctx.beginPath();path(land);ctx.fill();ctx.strokeStyle='rgba(120,170,255,.28)';ctx.lineWidth=.8;ctx.stroke()}
   const sun=subsolar(),anti=[sun[0]+180,-sun[1]];ctx.fillStyle='rgba(1,2,12,.42)';ctx.beginPath();path(d3.geoCircle().center(anti).radius(90)());ctx.fill();
@@ -333,6 +354,7 @@ function openModal(id){document.querySelectorAll('.scrim').forEach(s=>s.hidden=t
 function closeModals(){document.querySelectorAll('.scrim').forEach(s=>s.hidden=true)}
 $('#lightBtn').addEventListener('click',()=>{$('#cForm').hidden=false;$('#cCrisis').hidden=true;$('#pMsg').innerHTML='';openModal('#compose');setTimeout(()=>$('#pText').focus(),50)});
 $('#aboutBtn').addEventListener('click',()=>openModal('#about'));
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>b.dataset.open==='#install'?openInstall():b.dataset.open==='#sky'?openSky():openModal(b.dataset.open)));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeModals));
 document.querySelectorAll('.scrim').forEach(s=>s.addEventListener('click',e=>{if(e.target===s)closeModals()}));
 addEventListener('keydown',e=>{if(e.key==='Escape'){closeModals();closeVigil();$('#board').hidden=true}});
@@ -366,6 +388,45 @@ $('#vWith').addEventListener('click',async()=>{const p=vQueue[vIdx];if(!p||keptW
   try{await insert('vigils',{prayerId:p._id,city:c[0],cityIndex:myCity});keptWith.add(p._id);store.set('kept',[...keptWith]);vigils.push({prayerId:p._id,cityIndex:myCity});
     arcs.push({from:[c[3],c[2]],to:[p.lon,p.lat],t0:performance.now()});toast(`Your light is on its way to ${p.city}.`);showVigil();renderList();setTimeout(()=>{vIdx=(vIdx+1)%Math.max(1,vQueue.length);showVigil()},2600)}
   catch(err){$('#vWith').disabled=false;toast('That didn\'t go through. Try again.')}});
+
+/* ---------- your sky: people change their sky, never the flame ---------- */
+const SKIES=[
+ {id:'midnight',n:'Midnight',b:'#151B4D',a:'#03040E',ink:'light'},
+ {id:'dawn',n:'Dawn Rose',b:'#5B2A4A',a:'#1C0A1A',ink:'light'},
+ {id:'teal',n:'Deep Sea',b:'#0B3B44',a:'#021216',ink:'light'},
+ {id:'plum',n:'Plum',b:'#2E1A55',a:'#0D0720',ink:'light'},
+ {id:'dusk',n:'Ember Dusk',b:'#3B1A0C',a:'#140805',ink:'light'},
+ {id:'day',n:'Daylight',b:'#E2D5BB',a:'#F4EFE4',ink:'dark'}];
+const INK={light:'#eef1ff',dark:'#1B1A2E'};
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const hex=c=>'#'+c.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');
+const mix=(x,y,t)=>{const p=rgb(x),q=rgb(y);return hex(p.map((v,i)=>v+(q[i]-v)*t))};
+const lum=h=>{const[r,g,b]=rgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:((v+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b};
+const contrast=(x,y)=>{const p=lum(x),q=lum(y);return(Math.max(p,q)+.05)/(Math.min(p,q)+.05)};
+/* nudge a text color toward the ink until it reads at 4.5:1 on every surface it sits on */
+function legible(c,ink,bgs){for(let t=0;t<=1;t+=.05){const k=mix(c,ink,t);if(bgs.every(bg=>contrast(k,bg)>=4.5))return k}return ink}
+function customSky(h){h=h.toLowerCase();const ink=contrast(INK.dark,h)>contrast(INK.light,h)?'dark':'light';
+  let a=h,b=ink==='dark'?mix(h,'#000000',.08):mix(h,'#ffffff',.12);
+  for(let t=.1;contrast(INK[ink],a)<4.5||contrast(INK[ink],b)<4.5;t+=.1){const to=ink==='dark'?'#ffffff':'#000000';a=mix(h,to,t);b=mix(b,to,.1);if(t>1)break}
+  return{id:'custom',n:'Yours',a,b,ink,hex:h}}
+function skyTheme(s){const dark=s.ink==='dark',ink=INK[s.ink],card=dark?'#FBF7EE':'#121840',bgs=[s.a,s.b,card];
+  return{scheme:dark?'light':'dark',ocean:dark?['#22336e','#0b1438']:[mix('#12205a',s.b,.45),mix('#050a26',s.a,.5)],vars:{
+  '--space':s.a,'--space-2':s.b,'--ink':legible(ink,ink,bgs),'--muted':legible(dark?mix(ink,s.a,.32):'#a6aed0',ink,bgs),'--faint':legible(dark?mix(ink,s.a,.5):'#6a7299',ink,bgs),
+  '--accent':legible(dark?'#8a4700':'#ffe7b0',ink,bgs),'--line':dark?'rgba(27,26,46,.16)':'rgba(160,175,255,.16)',
+  '--glass':dark?'rgba(255,251,242,.80)':'rgba(10,14,40,.72)','--glass-2':dark?'rgba(252,248,238,.95)':'rgba(18,24,64,.86)','--nebula-op':dark?'.25':'1'}}}
+function readSky(){try{const v=JSON.parse(localStorage.getItem('vigil.sky')||'null');if(v&&v.id==='custom'&&/^#[0-9a-f]{6}$/i.test(v.hex))return customSky(v.hex);return SKIES.find(s=>s.id===(v&&v.id))||SKIES[0]}catch(e){return SKIES[0]}}
+let sky=readSky();
+function applySky(s,save){sky=s;const th=skyTheme(s),st=document.documentElement.style;
+  Object.entries(th.vars).forEach(([k,v])=>st.setProperty(k,v));st.colorScheme=th.scheme;ocean=th.ocean;
+  const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=s.a;
+  if(save)try{localStorage.setItem('vigil.sky',JSON.stringify(s.id==='custom'?{id:'custom',hex:s.hex}:{id:s.id}))}catch(e){}
+  renderSky()}
+function renderSky(){const list=sky.id==='custom'?[...SKIES,sky]:SKIES;
+  $('#skyGrid').innerHTML=list.map(s=>`<button type="button" data-sky="${s.id}" aria-pressed="${s.id===sky.id}" style="--sa:${s.a};--sb:${s.b}"><span class="sw" aria-hidden="true"></span><span class="nm">${s.n}</span></button>`).join('');
+  $('#skyGrid').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>applySky(b.dataset.sky==='custom'?sky:SKIES.find(s=>s.id===b.dataset.sky),true)))}
+function openSky(){renderSky();openModal('#sky')}
+$('#skyCustom').addEventListener('input',e=>applySky(customSky(e.target.value),true));
+applySky(sky,false);
 
 /* ---------- get the app ---------- */
 const SH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
