@@ -296,7 +296,8 @@ const SPAM=[/https?:\/\//i,/\bwww\./i,/\b[\w.-]+\.(com|net|org|io|co|xyz|ly|me|a
 function screen(text){const raw=text.trim();if(raw.length<4)return{ok:false,why:'short'};const n=normalize(raw);
   if(CRISIS.some(r=>r.test(n.spaced)))return{ok:false,why:'crisis'};
   if(SPAM.some(r=>r.test(raw))||BLOCK_WORDS.some(w=>n.spaced.includes(' '+w+' '))||BLOCK_SQUASH.some(w=>n.squashed.includes(w))||HARM.some(r=>r.test(n.spaced)))return{ok:false,why:'block'};
-  if(!/[a-z]{2,}.*\s.*[a-z]{2,}/i.test(raw))return{ok:false,why:'block'};return{ok:true}}
+  /* two words, or one real word of 4+ letters (Grateful, Peace), in any language */
+  if(!/\p{L}{2,}.*\s.*\p{L}{2,}/u.test(raw)&&!/^\p{L}{4,}[.!]*$/u.test(raw))return{ok:false,why:'short'};return{ok:true}}
 
 /* ---------- state ---------- */
 let prayers=[],vigils=[],pending=store.get('pending',[]);
