@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vigil</title>
+<meta name="description" content="Whoever you are. Whatever you call God. Light a prayer and see the world keeping watch with you.">
+<meta name="theme-color" content="#03040e">
+<meta property="og:title" content="Vigil">
+<meta property="og:description" content="No one keeps vigil alone. Light a prayer and watch the world pray with you.">
+<meta property="og:image" content="https://static.wixstatic.com/media/2d1aef_866ce4d0e61346489c55bf3ac7ff64d6~mv2.jpg">
+<link rel="icon" href="https://static.wixstatic.com/media/2d1aef_866ce4d0e61346489c55bf3ac7ff64d6~mv2.jpg/v1/fill/w_64,h_64,q_90/vigil.jpg">
+<link rel="apple-touch-icon" href="https://static.wixstatic.com/media/2d1aef_866ce4d0e61346489c55bf3ac7ff64d6~mv2.jpg/v1/fill/w_180,h_180,q_90/vigil.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vigil">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{color-scheme:dark;--space:#03040e;--space-2:#0b1033;--ink:#eef1ff;--muted:#a6aed0;--faint:#6a7299;--line:rgba(160,175,255,.16);--glass:rgba(10,14,40,.72);--glass-2:rgba(18,24,64,.86);--flame:#ffb54f;--flame-hot:#ffe7b0;--ember:#ff7a2a;
+--display:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(120% 90% at 50% 40%,var(--space-2),var(--space) 70%);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;overflow:hidden;padding-top:env(safe-area-inset-top)}
+.nebula{position:fixed;inset:0;pointer-events:none;background:radial-gradient(40% 35% at 12% 18%,rgba(90,42,158,.38),transparent 70%),radial-gradient(40% 35% at 90% 26%,rgba(15,107,138,.32),transparent 70%)}
+canvas#globe{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(16px,env(safe-area-inset-right)) 14px max(16px,env(safe-area-inset-left))}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:36px;height:36px;border-radius:9px;box-shadow:0 0 24px rgba(255,170,80,.35)}
+.brand b{font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:.32em;padding-left:.32em}
+.stats{display:flex;gap:14px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex-wrap:wrap;justify-content:flex-end}
+.stats b{color:var(--flame-hot);font-weight:800}
+.hero{position:fixed;z-index:10;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);text-align:center;pointer-events:none;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(26px,4.6vw,46px);line-height:1.08;margin:0;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+.hero h1 em{color:var(--flame-hot);font-style:italic}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;pointer-events:auto}
+.btn{font:800 15px var(--body);border:0;border-radius:999px;padding:13px 22px;cursor:pointer;color:#1b0e00;background:linear-gradient(180deg,var(--flame-hot),var(--flame) 55%,var(--ember));box-shadow:0 0 0 1px rgba(255,220,160,.4),0 8px 30px rgba(255,140,50,.35)}
+.btn.ghost{background:rgba(255,255,255,.06);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);backdrop-filter:blur(8px)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--flame-hot);outline-offset:3px}
+aside{position:fixed;z-index:15;right:max(16px,env(safe-area-inset-right));top:calc(env(safe-area-inset-top,0px) + 74px);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:340px;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;overflow:hidden}
+aside h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0;padding:16px 18px 4px}
+aside .sub{color:var(--muted);font-size:13px;margin:0;padding:0 18px 10px}
+.list{overflow-y:auto;padding:4px 10px 14px;display:grid;gap:8px;align-content:start}
+.prayer{border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.035);border:1px solid transparent;cursor:pointer;text-align:left;color:inherit;font:inherit;width:100%}
+.prayer:hover,.prayer.sel{border-color:rgba(255,190,110,.35);background:rgba(255,180,90,.06)}
+.prayer p{margin:0 0 8px;font-size:14.5px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.meta .who{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.count{color:var(--flame-hot);white-space:nowrap}
+.tag{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin-left:6px}
+.empty{color:var(--muted);text-align:center;padding:30px 16px;font-size:14px}
+.sheet-toggle{display:none}
+@media (min-width:861px){.hero{right:372px}}
+@media (max-width:860px){aside{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));width:auto;top:auto;height:56px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);transition:height .35s}
+aside.open{height:62vh}aside h2{padding:0}
+.sheet-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;color:var(--ink);font:inherit;padding:14px 18px;cursor:pointer}
+aside .sub,aside .list{display:none}aside.open .list{display:grid}aside.open .sub{display:block}
+.hero{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}.desk-title{display:none}}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(2,3,12,.55);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
+.card{width:min(520px,100%);max-height:100%;overflow:auto;background:var(--glass-2);border:1px solid var(--line);border-radius:22px;padding:22px}
+.card h3{font-family:var(--display);font-weight:600;font-size:30px;margin:0 0 4px;line-height:1.1}
+.lede{color:var(--muted);margin:0 0 16px}
+label{display:grid;gap:6px;font-size:13px;font-weight:700;color:var(--muted)}
+textarea,select,input[type=text]{font:16px var(--body);color:var(--ink);background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+textarea{min-height:130px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:480px){.row{grid-template-columns:1fr}}
+.form{display:grid;gap:14px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;color:var(--ink);font-size:14px}
+.check input{width:20px;height:20px;accent-color:var(--flame)}
+.char{font-size:12px;color:var(--faint);text-align:right;margin-top:-8px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--muted);font:600 14px var(--body);cursor:pointer;padding:8px}
+.notice{border-radius:12px;padding:12px 14px;font-size:14px;background:rgba(255,120,120,.1);border:1px solid rgba(255,138,138,.35);color:#ffd2d2}
+.lines{display:grid;gap:8px;margin:12px 0}
+.line{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.line b{display:block;font-size:17px;color:var(--flame-hot);user-select:all}
+.vigil{position:fixed;inset:0;z-index:35;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 28px)}
+.vcard{pointer-events:auto;width:min(560px,100%);text-align:center;background:linear-gradient(180deg,rgba(10,14,40,.2),rgba(10,14,40,.85) 30%);border-radius:22px;padding:26px 22px 20px}
+.place{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--flame-hot);font-weight:800}
+.vcard blockquote{font-family:var(--display);font-size:clamp(22px,3.4vw,30px);line-height:1.25;margin:10px 0 16px;text-wrap:balance}
+.bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.vclose{position:fixed;z-index:36;top:calc(env(safe-area-inset-top,0px) + 14px);right:16px;pointer-events:auto}
+.toast{position:fixed;z-index:50;left:50%;top:calc(env(safe-area-inset-top,0px) + 76px);transform:translateX(-50%);background:var(--glass-2);border:1px solid rgba(255,200,130,.4);border-radius:999px;padding:10px 18px;font-weight:700;font-size:14px;max-width:calc(100vw - 32px);text-align:center}
+.foot-links{position:fixed;z-index:20;left:max(16px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom,0px) + 10px);font-size:12px;color:var(--faint)}
+.foot-links button{background:none;border:0;color:var(--faint);font:inherit;cursor:pointer;padding:0;text-decoration:underline}
+@media (max-width:860px){.foot-links{display:none}}
+.about p{color:var(--muted)}
+.boardbtn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--ink);font:600 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px);font-variant-numeric:tabular-nums}
+.boardbtn b{color:var(--flame-hot);font-weight:800}
+.boardbtn .dot{width:7px;height:7px;border-radius:50%;background:var(--flame);box-shadow:0 0 10px var(--flame)}
+.board{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 64px);right:max(16px,env(safe-area-inset-right));width:min(360px,calc(100vw - 32px));background:var(--glass-2);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.board h3{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 2px}
+.board .lede{margin:0 0 12px;font-size:13px}
+.board table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.board th{font-size:12px;color:var(--faint);font-weight:700;text-align:right;padding:0 0 8px}
+.board th:first-child{text-align:left}
+.board td{padding:10px 0;border-top:1px solid var(--line);text-align:right;font-size:15px}
+.board td:first-child{text-align:left;color:var(--muted);font-weight:600}
+.board td.big{font-family:var(--display);font-size:26px;font-weight:600;color:var(--flame-hot);line-height:1}
+.board .note{font-size:12px;color:var(--faint);margin:10px 0 0}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.getbtn{display:flex;align-items:center;gap:7px;background:rgba(255,180,90,.12);border:1px solid rgba(255,200,130,.4);color:var(--flame-hot);font:700 13px var(--body);border-radius:999px;padding:8px 14px;cursor:pointer;backdrop-filter:blur(8px)}
+.getbtn svg{width:16px;height:16px}
+@media (max-width:520px){.getbtn .gl{display:none}.getbtn{padding:8px 10px}.boardbtn{padding:8px 12px}}
+.dev{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;padding-bottom:2px}
+.dev button{flex:0 0 auto;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);font:700 13px var(--body);border-radius:999px;padding:8px 13px;cursor:pointer}
+.dev button[aria-selected="true"]{background:rgba(255,180,90,.16);border-color:rgba(255,200,130,.55);color:var(--flame-hot)}
+.steps{display:grid;gap:10px;margin:0 0 14px;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:12px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,var(--flame-hot),var(--flame));color:#1b0e00;font-weight:800;font-size:14px}
+.steps b{color:var(--ink)}
+.kbd{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:7px;padding:0 6px;font-weight:700;color:var(--ink);white-space:nowrap}
+.kbd svg{width:14px;height:14px}
+.inote{font-size:13px;color:var(--faint);margin:0 0 14px}
+.sharebox{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:12px;padding:6px 6px 6px 12px;margin-bottom:14px}
+.sharebox span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;color:var(--muted)}
+.sharebox .btn{padding:9px 16px;font-size:14px}
+</style>
+<script id="wix-site-script" src="https://manage.wix.com/_api/headless-business-setup/v1/headless-business/site-script.js" data-client-id="3ec61f2d-4c68-4ccd-a25b-90ea747dda60" async></script></head>
+<body>
+<div class="nebula" aria-hidden="true"></div>
+<canvas id="globe" aria-label="A turning globe. Each warm light is a prayer from that place."></canvas>
+<header>
+  <div class="brand"><img src="https://static.wixstatic.com/media/2d1aef_866ce4d0e61346489c55bf3ac7ff64d6~mv2.jpg/v1/fill/w_72,h_72,q_90/vigil.jpg" alt=""><b>VIGIL</b></div>
+  <div class="hdr-r"><button class="getbtn" id="getBtn" aria-label="Get the Vigil app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg><span class="gl">Get the app</span></button>
+  <button class="boardbtn" id="boardBtn" aria-expanded="false" aria-controls="board"><span class="dot"></span><span><b id="todayN">0</b> <span id="todayL">prayers</span> today</span><span aria-hidden="true">▾</span></button></div>
+</header>
+<section class="hero" id="hero">
+  <h1>Whoever you are. Whatever you call God.<br><em>We'll keep watch with you.</em></h1>
+  <div class="actions"><button class="btn" id="lightBtn">Light a prayer</button><button class="btn ghost" id="vigilBtn">Keep vigil with the world</button></div>
+</section>
+<aside id="panel" aria-label="Prayers">
+  <button class="sheet-toggle" id="sheetBtn" aria-expanded="false"><h2>Prayers in the sky</h2><span aria-hidden="true">▲</span></button>
+  <h2 class="desk-title">Prayers in the sky</h2>
+  <p class="sub">Tap a prayer to find it on the globe. Newest first.</p>
+  <div class="list" id="list"><div class="empty">Gathering the lights…</div></div>
+</aside>
+<div class="foot-links"><button id="aboutBtn">About, privacy and safety</button> · <button id="getLink">Get the app</button></div>
+
+<div class="scrim" id="compose" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+    <div id="cForm">
+      <h3 id="cTitle">What's on your heart?</h3>
+      <p class="lede">Pray in your own words and your own faith, with kindness toward every neighbor.</p>
+      <form class="form" id="prayForm">
+        <label for="pText">Your prayer<textarea id="pText" maxlength="500" required placeholder="Please give my dad strength for his surgery tomorrow."></textarea></label>
+        <div class="char" id="pChar">0 / 500</div>
+        <div class="row">
+          <label for="pName">First name (optional)<input type="text" id="pName" maxlength="24" placeholder="Anonymous" autocomplete="off"></label>
+          <label for="pCity">Where you are<select id="pCity" required></select></label>
+        </div>
+        <label class="check" for="pBelieve"><input type="checkbox" id="pBelieve" required> I believe in God or a higher power, I'm 13 or older, and I'll treat every neighbor here with kindness.</label>
+        <div id="pMsg" role="status"></div>
+        <div class="foot"><button type="button" class="linkbtn" data-close>Not now</button><button class="btn" type="submit" id="sendBtn">Send it up</button></div>
+      </form>
+    </div>
+    <div id="cCrisis" hidden>
+      <h3>You matter. Please reach out now.</h3>
+      <p class="lede">Your prayer will not be posted publicly. Someone can talk with you right now, any hour.</p>
+      <div class="lines">
+        <div class="line">United States: call or text <b>988</b></div>
+        <div class="line">Anywhere in the world: find a free, confidential line at <b>findahelpline.com</b></div>
+        <div class="line">In immediate danger: call your local emergency number.</div>
+      </div>
+      <p style="color:var(--muted);font-size:14px">We're keeping watch with you. You are not alone.</p>
+      <div class="foot"><span></span><button class="btn ghost" data-close>Close</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="about" hidden>
+  <div class="card about" role="dialog" aria-modal="true" aria-labelledby="aTitle">
+    <h3 id="aTitle">About Vigil</h3>
+    <p>Vigil lets anyone who believes in God or a higher power light a prayer and see the world keeping watch together. It is free and always will be.</p>
+    <p><b style="color:var(--ink)">Kindness check.</b> Every prayer is checked before it appears on the globe. Prayers with hate, cursing, threats, ads, links or personal details are not posted.</p>
+    <p><b style="color:var(--ink)">Privacy.</b> We store your prayer, the first name you choose (if any), and the city you pick. We never store your exact location or your IP address.</p>
+    <p><b style="color:var(--ink)">Get the app.</b> Vigil installs from this link on any phone, tablet or computer. No app store, no account, no cost. <button class="linkbtn" id="aboutGet" style="padding:0;color:var(--flame-hot)">Show me how</button></p>
+    <p><b style="color:var(--ink)">If you're struggling.</b> In the United States call or text 988. Anywhere in the world: findahelpline.com.</p>
+    <div class="foot"><span></span><button class="btn ghost" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="vigil" id="vigil" hidden>
+  <button class="btn ghost vclose" id="vClose">Done</button>
+  <div class="vcard"><div class="place" id="vPlace"></div><blockquote id="vText"></blockquote>
+    <div class="bar"><button class="btn" id="vWith">🕯 I'm with you</button><button class="btn ghost" id="vNext">Next prayer</button></div>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:13px" id="vCount"></p></div>
+</div>
+<div class="board" id="board" hidden role="dialog" aria-labelledby="bTitle">
+  <h3 id="bTitle">Prayer board</h3>
+  <p class="lede">How many prayers the world has lit, and how often someone kept vigil.</p>
+  <table><thead><tr><th>When</th><th>Prayers lit</th><th>Vigils kept</th></tr></thead><tbody id="boardBody"></tbody></table>
+  <p class="note" id="boardNote">Counted in your local time.</p>
+</div>
+<div class="scrim" id="install" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="iTitle">
+    <h3 id="iTitle">Keep Vigil on your device</h3>
+    <p class="lede">Free, no app store, no account. It opens full screen like any app.</p>
+    <button class="btn" id="iNative" hidden style="width:100%;margin-bottom:14px">Install Vigil now</button>
+    <div class="dev" role="tablist" aria-label="Your device" id="iTabs"></div>
+    <div id="iBody"></div>
+    <div class="sharebox"><span id="iUrl"></span><button class="btn ghost" id="iShare" type="button">Share Vigil</button></div>
+    <div class="foot"><span></span><button class="btn ghost" data-close>Done</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script>
+const CITIES=[["Hurricane","United States",37.18,-113.29],["New York","United States",40.71,-74.01],["Los Angeles","United States",34.05,-118.24],["Chicago","United States",41.88,-87.63],["Houston","United States",29.76,-95.37],["Atlanta","United States",33.75,-84.39],["Denver","United States",39.74,-104.99],["Salt Lake City","United States",40.76,-111.89],["Seattle","United States",47.61,-122.33],["Miami","United States",25.76,-80.19],["Toronto","Canada",43.65,-79.38],["Vancouver","Canada",49.28,-123.12],["Mexico City","Mexico",19.43,-99.13],["Guatemala City","Guatemala",14.63,-90.51],["Bogotá","Colombia",4.71,-74.07],["Lima","Peru",-12.05,-77.04],["São Paulo","Brazil",-23.55,-46.63],["Rio de Janeiro","Brazil",-22.91,-43.17],["Buenos Aires","Argentina",-34.6,-58.38],["Santiago","Chile",-33.45,-70.67],["London","United Kingdom",51.51,-0.13],["Dublin","Ireland",53.35,-6.26],["Paris","France",48.86,2.35],["Madrid","Spain",40.42,-3.7],["Rome","Italy",41.9,12.5],["Berlin","Germany",52.52,13.4],["Warsaw","Poland",52.23,21.01],["Kyiv","Ukraine",50.45,30.52],["Athens","Greece",37.98,23.73],["Stockholm","Sweden",59.33,18.07],["Istanbul","Türkiye",41.01,28.98],["Jerusalem","Israel",31.78,35.22],["Amman","Jordan",31.95,35.93],["Beirut","Lebanon",33.89,35.5],["Cairo","Egypt",30.04,31.24],["Riyadh","Saudi Arabia",24.71,46.68],["Dubai","United Arab Emirates",25.2,55.27],["Tehran","Iran",35.69,51.39],["Baghdad","Iraq",33.31,44.36],["Lagos","Nigeria",6.52,3.38],["Accra","Ghana",5.6,-0.19],["Nairobi","Kenya",-1.29,36.82],["Addis Ababa","Ethiopia",9.03,38.74],["Kampala","Uganda",0.35,32.58],["Kinshasa","DR Congo",-4.44,15.27],["Johannesburg","South Africa",-26.2,28.05],["Cape Town","South Africa",-33.92,18.42],["Mumbai","India",19.08,72.88],["Delhi","India",28.61,77.21],["Kolkata","India",22.57,88.36],["Karachi","Pakistan",24.86,67.0],["Dhaka","Bangladesh",23.81,90.41],["Kathmandu","Nepal",27.72,85.32],["Colombo","Sri Lanka",6.93,79.86],["Bangkok","Thailand",13.76,100.5],["Ho Chi Minh City","Vietnam",10.82,106.63],["Jakarta","Indonesia",-6.21,106.85],["Manila","Philippines",14.6,120.98],["Singapore","Singapore",1.35,103.82],["Seoul","South Korea",37.57,126.98],["Tokyo","Japan",35.68,139.65],["Beijing","China",39.9,116.4],["Hong Kong","China",22.32,114.17],["Sydney","Australia",-33.87,151.21],["Melbourne","Australia",-37.81,144.96],["Auckland","New Zealand",-36.85,174.76],["Port Moresby","Papua New Guinea",-9.44,147.18],["Suva","Fiji",-18.12,178.44]];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={get(k,d){try{const v=localStorage.getItem('vigil-'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('vigil-'+k,JSON.stringify(v))}catch(e){}}};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,3400)}
+
+/* ---------- Wix data (visitor) ---------- */
+const API='https://www.wixapis.com',CLIENT='3ec61f2d-4c68-4ccd-a25b-90ea747dda60';
+let tok=store.get('tok',null);
+async function token(){if(tok&&tok.exp>Date.now()+60000)return tok.access;
+  const r=await fetch(API+'/oauth2/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:CLIENT,grantType:'anonymous'})});
+  if(!r.ok)throw new Error('auth');const d=await r.json();tok={access:d.access_token,exp:Date.now()+d.expires_in*1000};store.set('tok',tok);return tok.access}
+async function call(path,body){const t=await token();const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json',Authorization:t},body:JSON.stringify(body)});
+  if(r.status===401||r.status===403&&path.includes('items/query')){tok=null}if(!r.ok)throw new Error(String(r.status));return r.json()}
+async function query(col,limit){const d=await call('/wix-data/v2/items/query',{dataCollectionId:col,query:{sort:[{fieldName:'_createdDate',order:'DESC'}],paging:{limit}}});return (d.dataItems||[]).map(x=>x.data||{})}
+const insert=(col,data)=>call('/wix-data/v2/items',{dataCollectionId:col,dataItem:{data}});
+
+/* ---------- content filter ---------- */
+const LEET={'0':'o','1':'i','3':'e','4':'a','5':'s','7':'t','8':'b','@':'a','$':'s','!':'i','|':'i','+':'t'};
+function normalize(t){let s=t.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'');s=s.replace(/[013457@$!|+8]/g,c=>LEET[c]||c);
+  const squashed=s.replace(/[^a-z]/g,'');const spaced=s.replace(/[^a-z\s]/g,' ').replace(/(.)\1{2,}/g,'$1$1');
+  return{spaced:' '+spaced.replace(/\s+/g,' ')+' ',squashed:squashed.replace(/(.)\1{2,}/g,'$1$1')}}
+const BLOCK_WORDS=['fuck','fucking','fucker','shit','bitch','cunt','dick','cock','pussy','asshole','bastard','whore','slut','porn','nude','nudes','sex','sexy','penis','vagina','rape','nazi','hitler','kill yourself','kys'];
+const BLOCK_SQUASH=['fuck','shit','bitch','cunt','asshole','motherfuck','whore','slut','killyourself'];
+const HARM=[/\bpray(ing)?\s+(that\s+)?(he|she|they|you|him|her|them)\s+(dies?|die|rots?|burns?|suffers?)\b/,/\b(hope|wish)\s+(he|she|they|you)\s+(dies?|rots?|burns?)\b/,/\b(curse|damn)\s+(him|her|them|you)\b/,/\bdeath\s+to\b/,/\bi('ll| will)\s+(kill|hurt|shoot)\b/];
+const CRISIS=[/\bkill(ing)?\s+my\s*self\b/,/\bsuicid/,/\bend\s+(my|it)\s+(life|all)\b/,/\bwant\s+to\s+die\b/,/\bdon'?t\s+want\s+to\s+(live|be\s+alive|be\s+here)\b/,/\bself[\s-]?harm\b/,/\bcut(ting)?\s+my\s*self\b/,/\bno\s+reason\s+to\s+live\b/,/\bbetter\s+off\s+dead\b/];
+const SPAM=[/https?:\/\//i,/\bwww\./i,/\b[\w.-]+\.(com|net|org|io|co|xyz|ly|me|app|gg)\b/i,/[\w.+-]+@[\w-]+\.[\w.]+/,/(\+?\d[\d\s().-]{7,}\d)/,/(^|\s)@[a-z0-9_]{3,}/i,/\b(bitcoin|crypto|forex|dm me|whatsapp|telegram|onlyfans|promo|discount)\b/i];
+function screen(text){const raw=text.trim();if(raw.length<4)return{ok:false,why:'short'};const n=normalize(raw);
+  if(CRISIS.some(r=>r.test(n.spaced)))return{ok:false,why:'crisis'};
+  if(SPAM.some(r=>r.test(raw))||BLOCK_WORDS.some(w=>n.spaced.includes(' '+w+' '))||BLOCK_SQUASH.some(w=>n.squashed.includes(w))||HARM.some(r=>r.test(n.spaced)))return{ok:false,why:'block'};
+  if(!/[a-z]{2,}.*\s.*[a-z]{2,}/i.test(raw))return{ok:false,why:'block'};return{ok:true}}
+
+/* ---------- state ---------- */
+let prayers=[],vigils=[],pending=store.get('pending',[]);
+const keptWith=new Set(store.get('kept',[]));let myCity=store.get('city',0);
+const withCount=id=>vigils.filter(v=>v.prayerId===id).length;
+const isMine=p=>pending.some(x=>x.text===p.text);
+
+/* ---------- globe ---------- */
+const canvas=$('#globe'),ctx=canvas.getContext('2d');let land=null;
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then(r=>r.json()).then(t=>{land=topojson.feature(t,t.objects.land)}).catch(()=>{});
+const proj=d3.geoOrthographic().clipAngle(90).precision(.5);const path=d3.geoPath(proj,ctx);const graticule=d3.geoGraticule10();
+let W=0,H=0,DPR=1,R=0,center=[0,0],rot=[110,-18,0],target=null,dragging=false,lastInteract=0,focusId=null;const arcs=[],lifts=[];let heroTop=0;
+function layout(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;const desk=W>860;const usableW=desk?W-372:W;
+  const hr=$('#hero').getBoundingClientRect();if(hr.height>0)heroTop=hr.top;if(!heroTop)heroTop=H*.72;
+  const top=($('header').getBoundingClientRect().bottom||64)+14;const avail=Math.max(160,heroTop-Math.max(28,H*.035)-top);
+  R=Math.max(80,Math.min(usableW*.42,avail/2*.94,520));center=[usableW/2,top+avail/2];proj.scale(R).translate(center)}
+addEventListener('resize',layout);layout();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
+function subsolar(){const n=new Date();const day=(n-Date.UTC(n.getUTCFullYear(),0,0))/864e5;return[180-(n.getUTCHours()+n.getUTCMinutes()/60)*15,-23.44*Math.cos(2*Math.PI/365*(day+10))]}
+function visible(lon,lat){return d3.geoDistance([lon,lat],[-rot[0],-rot[1]])<Math.PI/2-0.02}
+function glowDot(x,y,r,a){const g=ctx.createRadialGradient(x,y,0,x,y,r*4);g.addColorStop(0,`rgba(255,240,205,${a})`);g.addColorStop(.25,`rgba(255,184,90,${a*.8})`);g.addColorStop(1,'rgba(255,120,40,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*4,0,7);ctx.fill()}
+function draw(t){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  if(target){rot[0]+=(target[0]-rot[0])*.06;rot[1]+=(target[1]-rot[1])*.06;if(Math.abs(target[0]-rot[0])<.05&&Math.abs(target[1]-rot[1])<.05)target=null}
+  else if(!dragging&&!reduced&&performance.now()-lastInteract>4000)rot[0]+=.035;
+  proj.rotate(rot);const[cx,cy]=center;
+  let g=ctx.createRadialGradient(cx,cy,R*.92,cx,cy,R*1.25);g.addColorStop(0,'rgba(76,195,255,.45)');g.addColorStop(.35,'rgba(60,140,255,.14)');g.addColorStop(1,'rgba(40,80,200,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R*1.25,0,7);ctx.fill();
+  g=ctx.createRadialGradient(cx-R*.3,cy-R*.35,R*.1,cx,cy,R);g.addColorStop(0,'#12205a');g.addColorStop(1,'#050a26');ctx.fillStyle=g;ctx.beginPath();path({type:'Sphere'});ctx.fill();
+  ctx.strokeStyle='rgba(120,150,255,.07)';ctx.lineWidth=.7;ctx.beginPath();path(graticule);ctx.stroke();
+  if(land){ctx.fillStyle='#1d2c74';ctx.beginPath();path(land);ctx.fill();ctx.strokeStyle='rgba(120,170,255,.28)';ctx.lineWidth=.8;ctx.stroke()}
+  const sun=subsolar(),anti=[sun[0]+180,-sun[1]];ctx.fillStyle='rgba(1,2,12,.42)';ctx.beginPath();path(d3.geoCircle().center(anti).radius(90)());ctx.fill();
+  ctx.strokeStyle='rgba(110,200,255,.55)';ctx.lineWidth=1.4;ctx.beginPath();path({type:'Sphere'});ctx.stroke();
+  const now=performance.now();
+  for(let i=arcs.length-1;i>=0;i--){const a=arcs[i];const p=Math.min(1,(now-a.t0)/2200);const ip=d3.geoInterpolate(a.from,a.to);const co=[];for(let k=0;k<=40;k++)co.push(ip(k/40*p));
+    ctx.strokeStyle=`rgba(255,205,130,${.75*(1-Math.max(0,(now-a.t0-2200)/2500))})`;ctx.lineWidth=2;ctx.beginPath();path({type:'LineString',coordinates:co});ctx.stroke();
+    const hp=ip(p);const head=proj(hp);if(head&&visible(...hp)&&p<1)glowDot(head[0],head[1],3,1);if(now-a.t0>4700)arcs.splice(i,1)}
+  const pulse=.75+.25*Math.sin(t/700);
+  for(const p of prayers){if(!visible(p.lon,p.lat))continue;const xy=proj([p.lon,p.lat]);if(!xy)continue;const n=withCount(p._id);const r=2.2+Math.min(3,Math.sqrt(n)*.9);const sel=p._id===focusId;glowDot(xy[0],xy[1],sel?r*1.8:r,sel?1:.85)}
+  for(const p of pending){if(prayers.some(x=>x.text===p.text))continue;if(!visible(p.lon,p.lat))continue;const xy=proj([p.lon,p.lat]);if(xy)glowDot(xy[0],xy[1],3,pulse*.7)}
+  for(let i=lifts.length-1;i>=0;i--){const L=lifts[i];const k=(now-L.t0)/2600;if(k>1){lifts.splice(i,1);continue}const xy=proj([L.lon,L.lat]);if(xy&&k>0)glowDot(xy[0],xy[1]-k*R*.55,5*(1-k*.4),1-k)}
+  requestAnimationFrame(draw)}
+requestAnimationFrame(draw);
+d3.select(canvas).call(d3.drag().on('start',()=>{dragging=true;target=null}).on('drag',e=>{const k=75/R;rot[0]+=e.dx*k;rot[1]=Math.max(-70,Math.min(70,rot[1]-e.dy*k));lastInteract=performance.now()}).on('end',()=>{dragging=false;lastInteract=performance.now()}));
+canvas.addEventListener('click',e=>{let best=null,bd=14;for(const p of prayers){if(!visible(p.lon,p.lat))continue;const xy=proj([p.lon,p.lat]);if(!xy)continue;const d=Math.hypot(xy[0]-e.clientX,xy[1]-e.clientY);if(d<bd){bd=d;best=p}}if(best)focusPrayer(best._id,true)});
+function flyTo(lon,lat){target=[-lon,Math.max(-60,Math.min(60,-lat))];while(target[0]-rot[0]>180)target[0]-=360;while(rot[0]-target[0]>180)target[0]+=360;lastInteract=performance.now()}
+
+/* ---------- list ---------- */
+function when(x){const d=x&&x._createdDate;const v=d&&typeof d==='object'?d.$date:d;const t=Date.parse(v||'');return isNaN(t)?0:t}
+function renderBoard(){const n=new Date();const day=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();
+  const wk=day-((n.getDay()+6)%7)*864e5;const mo=new Date(n.getFullYear(),n.getMonth(),1).getTime();const yr=new Date(n.getFullYear(),0,1).getTime();
+  const rows=[['Today',day],['This week',wk],['This month',mo],['This year',yr],['All time',0]];
+  const cap=(arr,lim)=>arr.length>=lim?'+':'';
+  $('#boardBody').innerHTML=rows.map(([l,t])=>{const p=prayers.filter(x=>when(x)>=t).length,v=vigils.filter(x=>when(x)>=t).length;
+    return `<tr><td>${l}</td><td class="big">${p.toLocaleString()}${t===0?cap(prayers,1000):''}</td><td>${v.toLocaleString()}${t===0?cap(vigils,1000):''}</td></tr>`}).join('');
+  const td=prayers.filter(x=>when(x)>=day).length;$('#todayN').textContent=td.toLocaleString();$('#todayL').textContent=td===1?'prayer':'prayers'}
+$('#boardBtn').addEventListener('click',e=>{e.stopPropagation();const b=$('#board');b.hidden=!b.hidden;$('#boardBtn').setAttribute('aria-expanded',!b.hidden);if(!b.hidden)renderBoard()});
+document.addEventListener('click',e=>{const b=$('#board');if(!b.hidden&&!b.contains(e.target)&&e.target!==$('#boardBtn')){b.hidden=true;$('#boardBtn').setAttribute('aria-expanded','false')}});
+function renderList(){const el=$('#list');renderBoard();
+  const waiting=pending.filter(p=>!prayers.some(x=>x.text===p.text));
+  let html=waiting.map(p=>`<div class="prayer"><p>${esc(p.text)}</p><div class="meta"><span class="who">${esc(p.city)}, ${esc(p.country)}<span class="tag">Yours · kindness check</span></span></div></div>`).join('');
+  html+=prayers.map(p=>{const n=withCount(p._id);return `<button class="prayer${p._id===focusId?' sel':''}" data-id="${esc(p._id)}"><p>${esc(p.text)}</p><div class="meta"><span class="who">${esc(p.name||'Anonymous')} · ${esc(p.city)}, ${esc(p.country)}${isMine(p)?'<span class="tag">Yours</span>':''}</span><span class="count">🕯 ${n}</span></div></button>`}).join('');
+  el.innerHTML=html||'<div class="empty">The sky is quiet. Light the first prayer.</div>';
+  el.querySelectorAll('button.prayer').forEach(b=>b.addEventListener('click',()=>focusPrayer(b.dataset.id,false)))}
+function focusPrayer(id,fromGlobe){const p=prayers.find(x=>x._id===id);if(!p)return;focusId=id;flyTo(p.lon,p.lat);renderList();if(fromGlobe&&innerWidth<=860){$('#panel').classList.add('open')}}
+$('#sheetBtn').addEventListener('click',()=>{const o=$('#panel').classList.toggle('open');$('#sheetBtn').setAttribute('aria-expanded',o)});
+
+/* ---------- compose ---------- */
+const citySel=$('#pCity');citySel.innerHTML=CITIES.map((c,i)=>`<option value="${i}">${esc(c[0])}, ${esc(c[1])}</option>`).join('');citySel.value=String(myCity);
+function openModal(id){document.querySelectorAll('.scrim').forEach(s=>s.hidden=true);$(id).hidden=false}
+function closeModals(){document.querySelectorAll('.scrim').forEach(s=>s.hidden=true)}
+$('#lightBtn').addEventListener('click',()=>{$('#cForm').hidden=false;$('#cCrisis').hidden=true;$('#pMsg').innerHTML='';openModal('#compose');setTimeout(()=>$('#pText').focus(),50)});
+$('#aboutBtn').addEventListener('click',()=>openModal('#about'));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeModals));
+document.querySelectorAll('.scrim').forEach(s=>s.addEventListener('click',e=>{if(e.target===s)closeModals()}));
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModals();closeVigil();$('#board').hidden=true}});
+$('#pText').addEventListener('input',e=>$('#pChar').textContent=`${e.target.value.length} / 500`);
+let sends=store.get('sends',[]);
+$('#prayForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('#pMsg');msg.innerHTML='';
+  const text=$('#pText').value.trim(),name=$('#pName').value.trim();const ci=+citySel.value;const c=CITIES[ci];myCity=ci;store.set('city',ci);
+  sends=sends.filter(x=>x>Date.now()-36e5);if(sends.length>=3){msg.innerHTML='<div class="notice">You\'ve lit 3 prayers in the last hour. Please rest a while and come back.</div>';return}
+  const r=screen(text),nm=name?screen(name+' is my name'):{ok:true};const btn=$('#sendBtn');
+  if(r.why==='crisis'){try{await insert('prayerInbox',{text,name,city:c[0],country:c[1],lat:c[2],lon:c[3],status:'held',reason:'crisis'})}catch(err){}$('#cForm').hidden=true;$('#cCrisis').hidden=false;$('#pText').value='';return}
+  if(!r.ok||!nm.ok){msg.innerHTML=r.why==='short'?'<div class="notice">Please write a little more so others can pray with you.</div>':'<div class="notice">This space is for prayer. It looks like your words broke our kindness rules. Please rewrite your prayer with respect for every neighbor.</div>';return}
+  btn.disabled=true;btn.textContent='Sending…';
+  try{await insert('prayerInbox',{text,name,city:c[0],country:c[1],lat:c[2],lon:c[3],status:'pending'});
+    pending.push({text,city:c[0],country:c[1],lat:c[2],lon:c[3],at:Date.now()});store.set('pending',pending);sends.push(Date.now());store.set('sends',sends);
+    $('#pText').value='';$('#pName').value='';$('#pChar').textContent='0 / 500';closeModals();flyTo(c[3],c[2]);lifts.push({lon:c[3],lat:c[2],t0:performance.now()+600});renderList();
+    toast('Your prayer is rising. It joins the sky after a quick kindness check.')}
+  catch(err){msg.innerHTML='<div class="notice">Your prayer didn\'t send. Check your connection and try again.</div>'}
+  finally{btn.disabled=false;btn.textContent='Send it up'}});
+
+/* ---------- keep vigil ---------- */
+let vQueue=[],vIdx=0;
+function buildQueue(){return prayers.filter(p=>!isMine(p)).sort((a,b)=>(withCount(a._id)-withCount(b._id))||String(b._createdDate||'').localeCompare(String(a._createdDate||'')))}
+function showVigil(){const p=vQueue[vIdx];if(!p){$('#vPlace').textContent='';$('#vText').textContent='Every prayer in the sky has someone keeping watch. Light one of your own.';$('#vWith').hidden=true;$('#vNext').hidden=true;$('#vCount').textContent='';return}
+  $('#vWith').hidden=false;$('#vNext').hidden=false;focusId=p._id;flyTo(p.lon,p.lat);$('#vPlace').textContent=`${p.city}, ${p.country}`;$('#vText').textContent='“'+p.text+'”';
+  const n=withCount(p._id);$('#vCount').textContent=n?`${n} ${n===1?'person has':'people have'} kept vigil with ${p.name||'them'}.`:'Nobody has kept vigil with this prayer yet. Be the first.';
+  const done=keptWith.has(p._id);$('#vWith').disabled=done;$('#vWith').textContent=done?'🕯 You kept vigil':'🕯 I\'m with you'}
+function closeVigil(){if($('#vigil').hidden)return;$('#vigil').hidden=true;$('#hero').hidden=false}
+$('#vigilBtn').addEventListener('click',()=>{vQueue=buildQueue();vIdx=0;$('#vigil').hidden=false;$('#hero').hidden=true;showVigil()});
+$('#vClose').addEventListener('click',closeVigil);$('#vNext').addEventListener('click',()=>{vIdx=(vIdx+1)%Math.max(1,vQueue.length);showVigil()});
+$('#vWith').addEventListener('click',async()=>{const p=vQueue[vIdx];if(!p||keptWith.has(p._id))return;const c=CITIES[myCity];$('#vWith').disabled=true;
+  try{await insert('vigils',{prayerId:p._id,city:c[0],cityIndex:myCity});keptWith.add(p._id);store.set('kept',[...keptWith]);vigils.push({prayerId:p._id,cityIndex:myCity});
+    arcs.push({from:[c[3],c[2]],to:[p.lon,p.lat],t0:performance.now()});toast(`Your light is on its way to ${p.city}.`);showVigil();renderList();setTimeout(()=>{vIdx=(vIdx+1)%Math.max(1,vQueue.length);showVigil()},2600)}
+  catch(err){$('#vWith').disabled=false;toast('That didn\'t go through. Try again.')}});
+
+/* ---------- get the app ---------- */
+const SH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+const DEVICES=[
+ {id:'ios',n:'iPhone & iPad',steps:[`Open this link in <b>Safari</b>. On newer iPhones, Chrome and Edge work too.`,`Tap the <span class="kbd">${SH} Share</span> button. On iPhone it's at the bottom; on iPad it's at the top.`,`Scroll down and tap <b>Add to Home Screen</b>.`,`Tap <b>Add</b>. Vigil's candle icon is now on your home screen.`],note:'Tip: press and hold the icon to move it next to your favorite apps.'},
+ {id:'android',n:'Android',steps:[`Open this link in <b>Chrome</b>.`,`Tap the <span class="kbd">⋮</span> menu in the top right.`,`Tap <b>Install app</b> or <b>Add to Home screen</b>.`,`Tap <b>Install</b>. Vigil shows up with your other apps.`],note:'Samsung Internet: tap the menu, then Add page to, then Home screen.'},
+ {id:'mac',n:'Mac',steps:[`<b>Safari:</b> open this link, then choose <b>File</b>, then <b>Add to Dock</b>. Needs macOS Sonoma or newer.`,`<b>Chrome:</b> click the install icon at the right end of the address bar, or open the <span class="kbd">⋮</span> menu, then <b>Cast, save and share</b>, then <b>Install page as app</b>.`,`<b>Edge:</b> open the <span class="kbd">⋯</span> menu, then <b>Apps</b>, then <b>Install this site as an app</b>.`,`Vigil opens in its own window and lives in your Dock and Launchpad.`],note:''},
+ {id:'win',n:'Windows PC',steps:[`Open this link in <b>Edge</b> or <b>Chrome</b>.`,`<b>Edge:</b> open the <span class="kbd">⋯</span> menu, then <b>Apps</b>, then <b>Install this site as an app</b>.`,`<b>Chrome:</b> click the install icon at the right end of the address bar, or open the <span class="kbd">⋮</span> menu, then <b>Cast, save and share</b>, then <b>Install page as app</b>.`,`Right-click Vigil in the taskbar and choose <b>Pin to taskbar</b>.`],note:''},
+ {id:'chromebook',n:'Chromebook',steps:[`Open this link in Chrome.`,`Click the install icon at the right end of the address bar.`,`Click <b>Install</b>. Vigil appears in your launcher and shelf.`],note:''},
+ {id:'watch',n:'Watch',steps:[`Smartwatches can't install web apps yet, on Apple Watch or Wear OS.`,`<b>Coming soon:</b> say <b>"Hey Siri, Vigil"</b> from your iPhone or Apple Watch to speak a prayer.`,`For now, install Vigil on your phone. Your watch will tap you when someone keeps vigil with you once notifications arrive.`],note:''},
+ {id:'tv',n:'Tablet & other',steps:[`<b>iPad:</b> use the iPhone & iPad steps.`,`<b>Android tablet or Fire tablet:</b> use the Android steps in Chrome or Silk.`,`<b>Any other browser:</b> bookmark this page. Vigil works in every modern browser.`],note:''}];
+function guessDevice(){const u=navigator.userAgent||'';const touchMac=/Macintosh/.test(u)&&navigator.maxTouchPoints>1;
+  if(/iPhone|iPad|iPod/.test(u)||touchMac)return'ios';if(/Android/.test(u))return'android';if(/CrOS/.test(u))return'chromebook';if(/Macintosh/.test(u))return'mac';if(/Windows/.test(u))return'win';return navigator.maxTouchPoints>0?'android':'win'}
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+let deferredPrompt=null,devSel=guessDevice();
+function siteUrl(){return location.origin+location.pathname}
+function renderInstall(){
+  $('#iTabs').innerHTML=DEVICES.map(d=>`<button role="tab" aria-selected="${d.id===devSel}" data-dev="${d.id}">${d.n}</button>`).join('');
+  const d=DEVICES.find(x=>x.id===devSel)||DEVICES[0];
+  $('#iBody').innerHTML=`<ol class="steps">${d.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol>${d.note?`<p class="inote">${d.note}</p>`:''}`;
+  $('#iTabs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{devSel=b.dataset.dev;renderInstall()}));
+  $('#iNative').hidden=!deferredPrompt;$('#iUrl').textContent=siteUrl().replace(/^https?:\/\//,'')}
+function openInstall(){renderInstall();openModal('#install')}
+if(standalone){$('#getBtn').hidden=true;$('#getLink').hidden=true}
+$('#getBtn').addEventListener('click',openInstall);$('#getLink').addEventListener('click',openInstall);$('#aboutGet').addEventListener('click',openInstall);
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!$('#install').hidden)renderInstall()});
+$('#iNative').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const r=await deferredPrompt.userChoice.catch(()=>null);deferredPrompt=null;renderInstall();if(r&&r.outcome==='accepted'){closeModals();toast('Vigil is on your device. Welcome.')}});
+addEventListener('appinstalled',()=>{$('#getBtn').hidden=true});
+$('#iShare').addEventListener('click',async()=>{const data={title:'Vigil',text:'Pray with us and the world. Free forever.',url:siteUrl()};
+  if(navigator.share){try{await navigator.share(data)}catch(e){}return}
+  try{await navigator.clipboard.writeText(siteUrl());toast('Link copied. Share it with someone who needs a prayer.')}catch(e){toast(siteUrl())}});
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('vigil-sw.js').catch(()=>{}))}
+/* app shortcuts: ?do=light or ?do=vigil */
+(()=>{const a=new URLSearchParams(location.search).get('do');if(a==='light')setTimeout(()=>$('#lightBtn').click(),700);else if(a==='vigil')setTimeout(()=>$('#vigilBtn').click(),1500);else if(a==='install')setTimeout(openInstall,500)})();
+
+/* ---------- live data (polling) ---------- */
+let seen=null;
+async function refresh(){try{
+  const [ps,vs]=await Promise.all([query('prayers',1000),query('vigils',1000)]);
+  prayers=ps.filter(p=>typeof p.lat==='number'&&typeof p.lon==='number'&&p.text);
+  const ids=new Set(vigils.map(v=>v._id));const fresh=seen?vs.filter(v=>!ids.has(v._id)):[];
+  vigils=vs.filter(v=>v.prayerId);
+  for(const v of fresh){const p=prayers.find(x=>x._id===v.prayerId);const c=CITIES[v.cityIndex];if(!p||!c)continue;arcs.push({from:[c[3],c[2]],to:[p.lon,p.lat],t0:performance.now()});if(isMine(p))toast(`Someone in ${c[0]} kept vigil with you.`)}
+  seen=true;pending=pending.filter(p=>Date.now()-p.at<7*864e5);store.set('pending',pending);renderList()
+}catch(e){if(!prayers.length)$('#list').innerHTML='<div class="empty">Couldn\'t reach the sky just now. We\'ll keep trying.</div>'}}
+refresh();setInterval(()=>{if(!document.hidden)refresh()},20000);
+</script>
+</body>
+</html>
